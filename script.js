@@ -1,21 +1,68 @@
 'use strict'
 
-const numberOfFilms = +prompt('Сколько фильмов в уже посмотрели?')
+let numberOfFilms;
+
+function start(){
+    numberOfFilms = +prompt('Сколько фильмов в уже посмотрели?')
+
+    while(numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)){
+        numberOfFilms = +prompt('Сколько фильмов в уже посмотрели?')
+    }
+}
+
+start();
 
 const personalMovieDB = {
     count: numberOfFilms,
     movies: {},
     actors: {},
-    genres: {},
+    genres: [],
     privat: false
 }
-const movie1 = prompt('Один из последних просмотренных фильмов?')
-const rating1 = prompt('На сколько оцените его?')
 
-const movie2 = prompt('Один из последних просмотренных фильмов?')
-const rating2 = prompt('На сколько оцените его?')
+function rememberMyFilms(){
+    for(let i = 0; i < 2; i++){
+        const a = prompt('Один из последних просмотренных фильмов?')
+        const b = prompt('На сколько оцените его?')
+    
+        if(a != null && b != null && a != '' && b != '' && a.length < 50){
+            personalMovieDB.movies[a] = b
+            console.log('Done');
+        }else{
+            console.log('error');
+            i--;
+        }
+    }
+}
 
-personalMovieDB.movies[movie1] = rating1
-personalMovieDB.movies[movie2] = rating2
+// rememberMyFilms();
 
-console.log(personalMovieDB)
+function detectPersonalLevel(){
+    if(personalMovieDB.count < 10){
+        console.log('Просмотрено довольно мало фильмов')
+    }else if(personalMovieDB.count >= 10 && personalMovieDB.count < 30){
+        console.log('Вы класический зритель')
+    }else if(personalMovieDB.count >= 30){
+        console.log('Вы киноман')
+    }else{
+        console.log('Произошла ошибка')
+    }
+}
+
+// detectPersonalLevel();
+
+function showMyDB(hidden){
+    if(!hidden){
+        console.log(personalMovieDB);
+    }
+}
+
+showMyDB(personalMovieDB.privat);
+
+function writeYourGenre(){
+    for(let i = 1; i < 4; i++){         
+        personalMovieDB.genres[i - 1] = prompt(`Ваш любимй жанр по номером ${i}`);
+    }
+}
+
+writeYourGenre()
